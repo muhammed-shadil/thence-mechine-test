@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:thence_mechine_test/view/Details_screen/Details_screen.dart';
 import 'package:thence_mechine_test/controller/bloc/fetch_data_bloc.dart';
 import 'package:thence_mechine_test/model/data_model.dart';
@@ -114,14 +113,31 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Expanded(
                     child: ListView.builder(
                       physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: state.data.data
-                          .length, // Adjust the count to accommodate ads.
+                      itemCount: state.data.data.length +
+                          1, // Adjust the count to accommodate ads.
                       itemBuilder: (BuildContext context, int index) {
                         // Every 4th position, starting from index 3 (0-based index)
 
                         fetcheddata = state.data;
-                        if (index != 0 && (index + 1) % 3 == 0) {
-                          return AdWidget();
+                        if (index == 2) {
+                          return const AdWidget();
+                        }
+                        if (index > 2) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => DetailsScreen(
+                                            fetchdetails: fetcheddata,
+                                            index: index - 1,
+                                          )));
+                            },
+                            child: MainListTile(
+                              fetcheddata: fetcheddata,
+                              index: index - 1,
+                            ),
+                          );
                         }
                         return InkWell(
                           onTap: () {
@@ -144,7 +160,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else if (state is loadingfetch) {
                   return const ShimmerLoading();
                 } else if (state is failurefetch) {
-                  Text(state.message!);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message!),
+                    ),
+                  );
                 }
                 return Container();
               }),

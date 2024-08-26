@@ -3,9 +3,10 @@ import 'package:thence_mechine_test/model/data_model.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen(
-      {super.key, required this.fetchdetails, required this.index});
-  final Fetchdata fetchdetails;
-  final int index;
+      {super.key, this.fetchdetails, this.index, this.productId});
+  final Fetchdata? fetchdetails;
+  final int? index;
+  final String? productId;
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
 }
@@ -15,6 +16,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.productId != null) {
+      // If a productId is provided, fetch the specific product details
+      // Fetch data from your API or state management (Bloc)
+      // Display a loading indicator while fetching data
+      // Handle 404 if product is not found
+    } else {
+      // Existing code to display details from fetched data
+      // Make sure to handle null checks properly
+    }
     return Scaffold(
       appBar: AppBar(),
       bottomNavigationBar: Padding(
@@ -41,7 +51,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       borderRadius: BorderRadius.circular(10),
                       color: const Color.fromARGB(255, 176, 136, 136)),
                   child: const Center(
-                    child: Text("Add to cart"),
+                    child: Text(
+                      "Add to cart",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 )),
           ],
@@ -59,7 +72,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.4,
               child: Image.network(
-                widget.fetchdetails.data[widget.index].imageUrl,
+                widget.fetchdetails!.data[widget.index!].imageUrl,
                 fit: BoxFit.fill,
               ),
             ),
@@ -72,7 +85,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.fetchdetails.data[widget.index].name,
+                        widget.fetchdetails!.data[widget.index!].name,
                         style: const TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 28),
                       ),
@@ -86,7 +99,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           Padding(
                             padding: const EdgeInsets.only(left: 2),
                             child: Text(
-                              widget.fetchdetails.data[widget.index].rating
+                              widget.fetchdetails!.data[widget.index!].rating
                                   .toString(),
                               style: const TextStyle(color: Colors.amber),
                             ),
@@ -96,7 +109,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ],
                   ),
                   Text(
-                    "${widget.fetchdetails.data[widget.index].price} ${widget.fetchdetails.data[widget.index].priceUnit}",
+                    "${widget.fetchdetails!.data[widget.index!].price} ${widget.fetchdetails!.data[widget.index!].priceUnit}",
                   ),
                 ],
               ),
@@ -111,20 +124,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     child: Text("Choose size",
                         style: TextStyle(fontWeight: FontWeight.w600)),
                   ),
-                  Container(
+                  SizedBox(
                     height: 40,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: widget
-                          .fetchdetails.data[widget.index].availableSize.length,
+                      itemCount: widget.fetchdetails!.data[widget.index!]
+                          .availableSize.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                selectedFilter = widget.fetchdetails
-                                    .data[widget.index].availableSize[index]
+                                selectedFilter = widget.fetchdetails!
+                                    .data[widget.index!].availableSize[index]
                                     .toString();
                               });
                             },
@@ -133,7 +146,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   horizontal: 10, vertical: 0),
                               decoration: BoxDecoration(
                                 color: selectedFilter ==
-                                        widget.fetchdetails.data[widget.index]
+                                        widget.fetchdetails!.data[widget.index!]
                                             .availableSize[index]
                                             .toString()
                                     ? const Color.fromARGB(255, 176, 136, 136)
@@ -142,12 +155,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               ),
                               child: Center(
                                 child: Text(
-                                  "${widget.fetchdetails.data[widget.index].availableSize[index]} ${widget.fetchdetails.data[widget.index].unit}",
+                                  "${widget.fetchdetails!.data[widget.index!].availableSize[index]} ${widget.fetchdetails!.data[widget.index!].unit}",
                                   style: TextStyle(
                                     color: selectedFilter ==
                                             widget
-                                                .fetchdetails
-                                                .data[widget.index]
+                                                .fetchdetails!
+                                                .data[widget.index!]
                                                 .availableSize[index]
                                                 .toString()
                                         ? Colors.white
@@ -169,7 +182,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
                   ),
                   Text(
-                    widget.fetchdetails.data[widget.index].description,
+                    widget.fetchdetails!.data[widget.index!].description,
                     style: const TextStyle(fontWeight: FontWeight.w300),
                   ),
                 ],

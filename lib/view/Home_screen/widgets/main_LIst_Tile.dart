@@ -25,7 +25,7 @@ class MainListTile extends StatelessWidget {
             children: [
               Container(
                 decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 215, 250, 250),
+                  color: Color.fromARGB(255, 225, 251, 251),
                   borderRadius: BorderRadius.all(Radius.circular(7)),
                 ),
                 width: MediaQuery.of(context).size.width * 0.25,
@@ -80,13 +80,13 @@ class MainListTile extends StatelessWidget {
             ],
           ),
           Row(children: [
-            Icon(
+            const Icon(
               Icons.star_outlined,
               color: Colors.amber,
               size: 14,
             ),
             Padding(
-              padding: EdgeInsets.only(left: 2),
+              padding: const EdgeInsets.only(left: 2),
               child: Text(
                 fetcheddata.data[index].rating.toString(),
                 style: const TextStyle(color: Colors.amber),

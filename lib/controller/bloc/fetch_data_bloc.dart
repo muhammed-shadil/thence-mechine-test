@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:thence_mechine_test/model/data_model.dart';
 import 'package:thence_mechine_test/utils/api_repositary.dart/apirepositary.dart';
@@ -29,10 +27,10 @@ class FetchDataBloc extends Bloc<FetchDataEvent, FetchDataState> {
         fetchdatas = Fetchdata.fromMap(result);
         emit(successfetch(data: fetchdatas));
       } else {
-        emit(failurefetch(""));
+        emit(failurefetch("somthing went wrong"));
       }
     } catch (e) {
-      emit(failurefetch(""));
+      emit(failurefetch(e.toString()));
     }
   }
 }
